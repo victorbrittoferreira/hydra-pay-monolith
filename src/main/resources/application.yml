@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: hydra-pay-monolith
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: ${HYDRA_DB_URL:jdbc:postgresql://localhost:5432/hydra_monolith}
+    username: ${HYDRA_DB_USER:hydra}
+    password: ${HYDRA_DB_PASSWORD:hydra}
+    # hikari:
+    #   pool-name: HydraHikariPool
+    #   maximum-pool-size: ${HYDRA_DB_POOL_MAX:30}
+    #   minimum-idle: ${HYDRA_DB_POOL_MIN:5}
+    #   connection-timeout: ${HYDRA_DB_POOL_CONN_TIMEOUT_MS:30000}
+    #   idle-timeout: ${HYDRA_DB_POOL_IDLE_TIMEOUT_MS:600000}
+    #   max-lifetime: ${HYDRA_DB_POOL_MAX_LIFETIME_MS:1800000}
+    #   leak-detection-threshold: ${HYDRA_DB_POOL_LEAK_DETECT_MS:0}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  sql:
+    init:
+      mode: always
+      platform: postgres
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  tracing:
+    enabled: false
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: WARN
+    org.springframework.web: WARN
